@@ -11,5 +11,5 @@ build:
     - "torchvision==0.13.1"
 predict: "predictor.py:CelebrityPredictor"
 model_name: "celebrity-predictor"
-private: true
+private: false
 iteration: "objects"
