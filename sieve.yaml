@@ -1,4 +1,4 @@
-model_version: "0.0.21"
+model_version: "0.0.69"
 build:
   gpu: true
   system_packages:

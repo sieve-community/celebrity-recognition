@@ -1,6 +1,6 @@
 from typing import List, Dict
 from sieve.types import Object, StaticObject, FrameFetcher
-from sieve.predictors import ObjectProcessor
+from sieve.predictors import ObjectPredictor
 
 import cv2
 
@@ -8,7 +8,7 @@ from model_training.helpers.labels import Labels
 from model_training.helpers.face_recognizer import FaceRecognizer    
 
 
-class CelebrityPredictor(ObjectProcessor):
+class CelebrityPredictor(ObjectPredictor):
     def setup(self):
         model_labels = Labels(resources_path='resources')
         self.model = FaceRecognizer(
@@ -20,7 +20,7 @@ class CelebrityPredictor(ObjectProcessor):
     def predict(self, frame_fetcher: FrameFetcher, object: Object) -> StaticObject:
         # Get bounding box from object middle frame
         object_start_frame, object_end_frame = object.start_frame, object.end_frame
-        object_temporal = object.get_temporal_object((object_start_frame + object_end_frame)//2)
+        object_temporal = object.get_temporal((object_start_frame + object_end_frame)//2)
         object_bbox = object_temporal.bounding_box
         # Get image from middle frame
         frame_data = frame_fetcher.get_frame((object_start_frame + object_end_frame)//2)
