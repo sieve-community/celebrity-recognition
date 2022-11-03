@@ -6,10 +6,19 @@ import cv2
 
 from model_training.helpers.labels import Labels
 from model_training.helpers.face_recognizer import FaceRecognizer    
-
+import requests
 
 class CelebrityPredictor(ObjectPredictor):
     def setup(self):
+        #Download the model
+        url = "https://storage.googleapis.com/sieve-public-model-assets/celebrity_recognition/best_model_states.pkl"
+        res = requests.get(url, stream = True)
+        with open('resources/face_recognition/best_model_states.pkl', 'wb') as f:
+            for chunk in res.iter_content(chunk_size = 1024*1024):
+                if chunk:
+                    f.write(chunk)
+
+        #Load model
         model_labels = Labels(resources_path='resources')
         self.model = FaceRecognizer(
             labels=model_labels,
